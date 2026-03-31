@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>For You 💕</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Dancing+Script:wght@600&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --rose: #e8637a;
+      --blush: #f9c6ce;
+      --deep: #c0394f;
+      --cream: #fff5f7;
+      --gold: #e8b86d;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #fce4ec 0%, #fff0f3 40%, #ffd6e0 70%, #ffb3c1 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      font-family: 'Lato', sans-serif;
+      position: relative;
+    }
+
+    /* Soft bokeh circles in background */
+    .bokeh {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(60px);
+      opacity: 0.25;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .bokeh-1 { width: 400px; height: 400px; background: #f48fb1; top: -100px; left: -100px; }
+    .bokeh-2 { width: 300px; height: 300px; background: #ff8a80; bottom: -50px; right: -50px; }
+    .bokeh-3 { width: 250px; height: 250px; background: #ffcc80; top: 50%; left: 60%; }
+
+    /* Falling petals */
+    .petal {
+      position: fixed;
+      top: -30px;
+      font-size: 22px;
+      animation: fall linear infinite;
+      pointer-events: none;
+      z-index: 1;
+      user-select: none;
+    }
+    @keyframes fall {
+      0%   { transform: translateY(-30px) rotate(0deg) translateX(0px); opacity: 1; }
+      50%  { transform: translateY(50vh) rotate(180deg) translateX(30px); opacity: 0.8; }
+      100% { transform: translateY(110vh) rotate(360deg) translateX(-20px); opacity: 0; }
+    }
+
+    /* Main card */
+    .card {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      padding: 60px 50px 50px;
+      background: rgba(255, 255, 255, 0.65);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 32px;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      box-shadow: 0 20px 60px rgba(232, 99, 122, 0.2), 0 8px 20px rgba(0,0,0,0.06);
+      max-width: 420px;
+      width: 90%;
+      animation: cardIn 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+    @keyframes cardIn {
+      from { opacity: 0; transform: translateY(40px) scale(0.9); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .emoji-top {
+      font-size: 48px;
+      display: block;
+      margin-bottom: 16px;
+      animation: bounce 2s ease-in-out infinite;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50%       { transform: translateY(-8px) scale(1.05); }
+    }
+
+    h1 {
+      font-family: 'Dancing Script', cursive;
+      font-size: 2.8em;
+      color: var(--rose);
+      line-height: 1.2;
+      margin-bottom: 8px;
+      text-shadow: 0 2px 10px rgba(232, 99, 122, 0.2);
+    }
+    h1 span {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      color: var(--deep);
+    }
+
+    .subtitle {
+      font-family: 'Lato', sans-serif;
+      font-weight: 300;
+      font-size: 1em;
+      color: #b06070;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 36px;
+      animation: fadeIn 1s ease 0.5s both;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 32px;
+      opacity: 0;
+      animation: fadeIn 1s ease 0.8s forwards;
+    }
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, #f48fb1, transparent);
+    }
+    .divider span { font-size: 18px; }
+
+    .message {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1em;
+      color: #8b4455;
+      line-height: 1.8;
+      margin-bottom: 40px;
+      opacity: 0;
+      animation: fadeIn 1s ease 1s forwards;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 14px 40px;
+      background: linear-gradient(135deg, var(--rose), var(--deep));
+      color: white;
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.4em;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      text-decoration: none;
+      box-shadow: 0 6px 24px rgba(192, 57, 79, 0.35);
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+      animation: fadeIn 1s ease 1.3s forwards;
+    }
+    .btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent);
+      border-radius: 50px;
+    }
+    .btn:hover {
+      transform: translateY(-4px) scale(1.05);
+      box-shadow: 0 12px 36px rgba(192, 57, 79, 0.45);
+    }
+    .btn:active { transform: scale(0.97); }
+
+    .hearts-bottom {
+      margin-top: 24px;
+      font-size: 20px;
+      letter-spacing: 6px;
+      opacity: 0;
+      animation: fadeIn 1s ease 1.6s forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 480px) {
+      .card { padding: 40px 28px 36px; }
+      h1 { font-size: 2.2em; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Bokeh bg -->
+  <div class="bokeh bokeh-1"></div>
+  <div class="bokeh bokeh-2"></div>
+  <div class="bokeh bokeh-3"></div>
+
+  <div class="card">
+    <span class="emoji-top">🌸</span>
+    <h1>Happy Birthday<br><span>Papu</span> 🎂</h1>
+    <p class="subtitle">A special surprise just for you</p>
+
+    <div class="divider"><span>💕</span></div>
+
+    <p class="message">
+      "Some people make your world brighter<br>
+      just by being in it...<br>
+      You're one of those people."
+    </p>
+
+    <button class="btn" onclick="window.location.href='memoris.html'">
+      Open Your Gift 🎁
+    </button>
+
+    <div class="hearts-bottom">💗 💓 💗</div>
+  </div>
+
+  <script>
+    const emojis = ['🌸', '🌺', '🌹', '💐', '🌷', '✨', '💕', '🦋'];
+    function spawnPetal() {
+      const p = document.createElement('div');
+      p.className = 'petal';
+      p.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      p.style.left = Math.random() * 100 + 'vw';
+      p.style.fontSize = (14 + Math.random() * 16) + 'px';
+      p.style.animationDuration = (5 + Math.random() * 6) + 's';
+      p.style.animationDelay = (Math.random() * 3) + 's';
+      p.style.opacity = 0.6 + Math.random() * 0.4;
+      document.body.appendChild(p);
+      setTimeout(() => p.remove(), 12000);
+    }
+    // Initial burst
+    for (let i = 0; i < 15; i++) setTimeout(spawnPetal, i * 300);
+    // Continuous
+    setInterval(spawnPetal, 800);
+  </script>
+</body>
+</html>

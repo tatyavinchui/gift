@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memories</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(45deg, #ff758c, #ff7eb3, #fad0c4);
+            font-family: 'Great Vibes', cursive;
+            overflow: hidden;
+            text-align: center;
+            position: relative;
+        }
+        .flowers {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://www.transparenttextures.com/patterns/flowers.png');
+            opacity: 0.5;
+            z-index: -1;
+        }
+        h1 {
+            font-size: 3em;
+            color: #fff;
+            text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 2s ease-in-out;
+        }
+        p {
+            font-size: 1.5em;
+            color: #fff;
+            margin-bottom: 20px;
+            font-weight: bold;
+            animation: fadeIn 3s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .memory-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .memory {
+            position: relative;
+            width: 200px;
+            cursor: pointer;
+        }
+        .memory img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+        .memory:hover img {
+            transform: scale(1.1);
+        }
+        .memory .message {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .memory:hover .message {
+            opacity: 1;
+        }
+        .firework {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: explode 0.5s ease-out forwards;
+        }
+        @keyframes explode {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(5); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="flowers"></div>
+    <h1>Cherishing Our Best Moments! 💖</h1>
+    <p>Let's relive the magical memories together! ✨</p>
+    <div class="memory-container">
+        <div class="memory"><img src="img1.jpg" alt="Memory 1"><div class="message">Unforgettable Moment 1</div></div>
+        <div class="memory"><img src="img2.jpg" alt="Memory 2"><div class="message">Unforgettable Moment 2</div></div>
+        <div class="memory"><img src="img3.jpg" alt="Memory 3"><div class="message">Unforgettable Moment 3</div></div>
+        <div class="memory"><img src="img4.jpg" alt="Memory 4"><div class="message">Unforgettable Moment 4</div></div>
+        <div class="memory"><img src="img5.jpg" alt="Memory 5"><div class="message">Unforgettable Moment 5</div></div>
+    </div>
+    <script>
+        document.addEventListener("mousemove", function(e) {
+            let firework = document.createElement("div");
+            firework.classList.add("firework");
+            firework.style.left = `${e.clientX}px`;
+            firework.style.top = `${e.clientY}px`;
+            
+            let colors = ["red", "yellow", "blue", "green", "purple", "orange", "pink"];
+            let randomColor = colors[Math.floor(Math.random() * colors.length)];
+            firework.style.background = `radial-gradient(circle, ${randomColor}, transparent)`;
+            
+            document.body.appendChild(firework);
+            setTimeout(() => {
+                firework.remove();
+            }, 500);
+        });
+    </script>
+</body>
+</html>

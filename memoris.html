@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Memories 💖</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&family=Playfair+Display:ital,wght@0,400;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --rose: #e05572;
+      --blush: #f9c6ce;
+      --cream: #fffbf5;
+      --deep: #c0394f;
+      --warm: #fff0f3;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(160deg, #fff0f5 0%, #fce4ec 50%, #ffd6e7 100%);
+      font-family: 'Lato', sans-serif;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Subtle texture overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(ellipse at 20% 20%, rgba(255,182,193,0.3) 0%, transparent 60%),
+                  radial-gradient(ellipse at 80% 80%, rgba(255,105,135,0.15) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Floating hearts bg */
+    .heart-bg {
+      position: fixed;
+      font-size: 24px;
+      pointer-events: none;
+      animation: floatUp linear infinite;
+      z-index: 1;
+      opacity: 0;
+    }
+    @keyframes floatUp {
+      0%   { opacity: 0; transform: translateY(0) scale(0.5) rotate(0deg); }
+      10%  { opacity: 0.4; }
+      90%  { opacity: 0.15; }
+      100% { opacity: 0; transform: translateY(-100vh) scale(1.2) rotate(20deg); }
+    }
+
+    /* Header */
+    .header {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      padding: 50px 20px 20px;
+      animation: slideDown 1s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .header-icon { font-size: 40px; display: block; margin-bottom: 10px; }
+
+    h1 {
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(2em, 6vw, 3.2em);
+      color: var(--rose);
+      text-shadow: 0 2px 15px rgba(224, 85, 114, 0.25);
+      margin-bottom: 10px;
+    }
+
+    .tagline {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1em;
+      color: #b06070;
+      letter-spacing: 1px;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 20px auto;
+      max-width: 300px;
+    }
+    .divider::before, .divider::after {
+      content: ''; flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, #f48fb1, transparent);
+    }
+    .divider span { font-size: 16px; }
+
+    /* Gallery */
+    .gallery {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+      padding: 20px 30px 40px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    /* Polaroid card */
+    .polaroid {
+      background: white;
+      padding: 14px 14px 50px;
+      border-radius: 4px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.08);
+      width: 220px;
+      cursor: pointer;
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+      animation: cardAppear 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+      position: relative;
+      overflow: hidden;
+    }
+    .polaroid:nth-child(1) { transform: rotate(-3deg); animation-delay: 0.1s; }
+    .polaroid:nth-child(2) { transform: rotate(2.5deg); animation-delay: 0.25s; }
+    .polaroid:nth-child(3) { transform: rotate(-2deg); animation-delay: 0.4s; }
+    .polaroid:nth-child(4) { transform: rotate(3.5deg); animation-delay: 0.55s; }
+
+    @keyframes cardAppear {
+      from { opacity: 0; transform: translateY(40px) scale(0.85) rotate(0deg); }
+    }
+
+    .polaroid:hover {
+      transform: rotate(0deg) scale(1.08) translateY(-10px) !important;
+      box-shadow: 0 24px 60px rgba(224, 85, 114, 0.3), 0 8px 20px rgba(0,0,0,0.1);
+      z-index: 20;
+    }
+
+    .polaroid img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+      border-radius: 2px;
+    }
+
+    .polaroid .caption {
+      position: absolute;
+      bottom: 10px;
+      left: 0; right: 0;
+      text-align: center;
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.05em;
+      color: #b06070;
+      padding: 0 10px;
+    }
+
+    /* Heart burst on hover */
+    .polaroid::after {
+      content: '💕';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      font-size: 40px;
+      transform: translate(-50%, -50%) scale(0);
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .polaroid:hover::after {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 0.85;
+    }
+
+    /* Tooltip message */
+    .tooltip {
+      position: absolute;
+      bottom: -50px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--deep);
+      color: white;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.78em;
+      white-space: nowrap;
+      opacity: 0;
+      transition: opacity 0.3s, bottom 0.3s;
+      pointer-events: none;
+      font-family: 'Lato', sans-serif;
+      font-weight: 300;
+      letter-spacing: 0.5px;
+    }
+    .polaroid:hover .tooltip {
+      opacity: 1;
+      bottom: -42px;
+    }
+
+    /* Next button */
+    .btn-wrap {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      padding: 10px 20px 60px;
+      animation: fadeIn 1s ease 1.2s both;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 14px 44px;
+      background: linear-gradient(135deg, var(--rose), var(--deep));
+      color: white;
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.4em;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 6px 24px rgba(192, 57, 79, 0.35);
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      position: relative;
+      overflow: hidden;
+    }
+    .btn:hover {
+      transform: translateY(-4px) scale(1.05);
+      box-shadow: 0 12px 36px rgba(192, 57, 79, 0.45);
+    }
+
+    /* Cursor trail */
+    .cursor-heart {
+      position: fixed;
+      pointer-events: none;
+      font-size: 16px;
+      z-index: 9999;
+      animation: cursorFade 0.8s ease forwards;
+    }
+    @keyframes cursorFade {
+      0%   { opacity: 1; transform: scale(1) translateY(0); }
+      100% { opacity: 0; transform: scale(0.5) translateY(-20px); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 600px) {
+      .gallery { gap: 20px; padding: 10px 20px 30px; }
+      .polaroid { width: 160px; }
+      .polaroid img { height: 150px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <span class="header-icon">📸</span>
+    <h1>Our Beautiful Moments 💖</h1>
+    <p class="tagline">Every picture tells our story...</p>
+    <div class="divider"><span>🌸</span></div>
+  </header>
+
+  <div class="gallery">
+    <div class="polaroid">
+      <img src="img1.jpg" alt="Memory 1">
+      <div class="caption">Always blooming 🌸</div>
+      <div class="tooltip">You make everything prettier 🥰</div>
+    </div>
+    <div class="polaroid">
+      <img src="img2.jpg" alt="Memory 2">
+      <div class="caption">Sunshine vibes ☀️</div>
+      <div class="tooltip">Warm as your smile 💛</div>
+    </div>
+    <div class="polaroid">
+      <img src="img3.jpg" alt="Memory 3">
+      <div class="caption">Golden days 🌻</div>
+      <div class="tooltip">Bright like you, always 🌟</div>
+    </div>
+    <div class="polaroid">
+      <img src="img4.jpg" alt="Memory 4">
+      <div class="caption">After the rain 🌹</div>
+      <div class="tooltip">Beautiful even in hard times 💕</div>
+    </div>
+  </div>
+
+  <div class="btn-wrap">
+    <button class="btn" onclick="window.location.href='cake.html'">
+      One More Surprise 🎂 ✨
+    </button>
+  </div>
+
+  <script>
+    // Floating hearts background
+    const heartEmojis = ['💕', '🌸', '💗', '✨', '🌺', '💖'];
+    function spawnHeart() {
+      const h = document.createElement('div');
+      h.className = 'heart-bg';
+      h.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+      h.style.left = (Math.random() * 100) + 'vw';
+      h.style.bottom = '-30px';
+      h.style.fontSize = (16 + Math.random() * 14) + 'px';
+      h.style.animationDuration = (6 + Math.random() * 6) + 's';
+      h.style.animationDelay = (Math.random() * 2) + 's';
+      document.body.appendChild(h);
+      setTimeout(() => h.remove(), 14000);
+    }
+    for (let i = 0; i < 10; i++) setTimeout(spawnHeart, i * 500);
+    setInterval(spawnHeart, 1200);
+
+    // Cursor trail
+    const trailEmojis = ['💕', '✨', '🌸', '💗'];
+    let lastTime = 0;
+    document.addEventListener('mousemove', (e) => {
+      const now = Date.now();
+      if (now - lastTime < 120) return;
+      lastTime = now;
+      const el = document.createElement('div');
+      el.className = 'cursor-heart';
+      el.textContent = trailEmojis[Math.floor(Math.random() * trailEmojis.length)];
+      el.style.left = e.clientX + 'px';
+      el.style.top = e.clientY + 'px';
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 800);
+    });
+  </script>
+</body>
+</html>
